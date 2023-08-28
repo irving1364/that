@@ -1,0 +1,404 @@
+ng-model de react se maneja con state
+
+trayendo usestate y useEffect from react
+
+cada uno tiene una funcionalidad distinta
+
+useEffect se usa para cuando se carga la page unicamente
+
+Hay que tener claro que los usestate son variables que se necesitan como sistema admin
+pero en siti web podemos usar getStaticPros para obtener data dinamica que nos ofrece
+react y solo se carga al momento del build, pero lo podemos conbinar con ISR obtener
+incremental static regeneration para poder hacer dinamico el getStaticPros y aun asi
+mejorar mas la velocidad de carga en una cierta cantidad de interfaces que nosotros 
+queramos para hacer eso solo tenemos que agrefar en el getStaticPros el revalidate 10 
+en este caso lo estaria haciendo cada 10 seg luego de tener algun cambion en el endPoint
+
+
+
+
+
+import Head from 'next/head';
+import { useRouter} from 'next/router';
+import styles from '../../styles/SingleProduct.module.css';
+import { useState, useEffect} from 'react'
+
+
+const singleproduct = (props) => {
+    
+    const router = useRouter();
+   
+    const [productFuerza, setProduct] = useState([]);
+    const [isLoad, setIsLoad] = useState(false);  
+   
+
+    useEffect(() => {
+        setProduct(props.prducto[0])
+        setIsLoad(true)
+    }, []);
+   
+   // setProduct(props)
+   
+
+if (isLoad) {
+    console.log(productFuerza)
+    return (
+		<>     
+			<Head>
+				<title>{productFuerza.Producto.Nombre}</title>
+			</Head>
+			
+            
+            <div className={styles.single_container}>
+				<div className={styles.left_section}>
+					<img src={productFuerza.Images[0].src} className={styles.left_img} alt="" />
+				</div>
+				<div className={styles.right_section}>
+					<h3 className={styles.title}>{productFuerza.Producto.Nombre}</h3>
+					<p className={styles.price}>${productFuerza.Producto.Precio_Venta}</p>
+					<div
+						className={styles.para}
+						dangerouslySetInnerHTML={{
+							__html: productFuerza.Producto.Detalle
+						}}
+					></div>
+					<button
+						className="btn snipcart-add-item"
+						data-item-id={productFuerza.Producto.id}
+						data-item-price={productFuerza.Producto.Precio_Venta}
+						data-item-url={`products/${productFuerza.Producto.UPC_Code}`}
+						data-item-image={productFuerza.Images[0].src}
+						data-item-name={productFuerza.Producto.Nombre}
+					>
+						Agregar al Carrito 🛒
+					</button>
+				</div>
+			</div>
+            
+		</>
+	);
+  }
+	
+};
+
+export default singleproduct;
+
+
+
+export const getServerSideProps= async (context) => {
+    
+    
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre: context.query.productonombre })
+    };
+    
+    const data = await fetch("https://fadimet.com.pa/backendInterFuerzaFadimet/index.php/auth/getProductosNombre", requestOptions);
+
+    const result = await data.json();
+    
+    console.log(result.products)
+    /*  # call next api dynamically each request
+    const res = await fetch(`/api/${id}`);
+    const result = await res.json();
+  */
+    return {
+      props: {
+            prducto : result.products
+      },
+    };
+};    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import Head from 'next/head';
+import { useRouter} from 'next/router';
+import styles from '../../styles/SingleProduct.module.css';
+import { useState, useEffect} from 'react'
+
+
+const singleproduct = ({ product }) => {
+    const router = useRouter();
+   
+    const [productFuerza, setProduct] = useState([]);
+    const [isLoad, setIsLoad] = useState(false);  
+    
+    const { productonombre } = router.query;
+    
+   
+
+    useEffect(() => {
+
+        if(!router.isReady) return;
+        const { productonombre } = router.query;
+        var data = {
+            nombre:  { productonombre },
+         } 
+       
+      
+        obtenerProduct({ productonombre }); 
+    }, [router.isReady]);
+ 
+   const obtenerProduct = async () => {
+        const URLactual = window.location;
+        let ruta = URLactual.pathname
+        //ruta = ruta.replace(/\+|%20/g, " ");
+        //console.log(ruta.substr(10) ) 
+        ruta = ruta.substr(10)
+        
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre: ruta })
+        };
+        
+        const data = await fetch("https://fadimet.com.pa/backendInterFuerzaFadimet/index.php/auth/getProductosNombre", requestOptions);
+
+        const result = await data.json();
+        setProduct(result.products[0])
+        setIsLoad(true)
+   }
+
+
+
+
+
+   
+   
+   console.log(productFuerza)
+
+   if (isLoad) {
+    return (
+		<>     
+			<Head>
+				<title>{productFuerza.Producto.Nombre}</title>
+			</Head>
+			<div className={styles.single_container}>
+				<div className={styles.left_section}>
+					<img src={productFuerza.Images[0].src} className={styles.left_img} alt="" />
+				</div>
+				<div className={styles.right_section}>
+					<h3 className={styles.title}>{productFuerza.Producto.Nombre}</h3>
+					<p className={styles.price}>${productFuerza.Producto.Precio_Venta}</p>
+					<div
+						className={styles.para}
+						dangerouslySetInnerHTML={{
+							__html: productFuerza.Producto.Detalle
+						}}
+					></div>
+					<button
+						className="btn snipcart-add-item"
+						data-item-id={productFuerza.Producto.id}
+						data-item-price={productFuerza.Producto.Precio_Venta}
+						data-item-url={`products/${productFuerza.Producto.UPC_Code}`}
+						data-item-image={productFuerza.Images[0].src}
+						data-item-name={productFuerza.Producto.Nombre}
+					>
+						Agregar al Carrito 🛒
+					</button>
+				</div>
+			</div>
+		</>
+	);
+  }
+  
+	
+};
+
+export default singleproduct;
+
+
+
+{
+  orderID: '5UM83932C9177942D', 
+  payerID: 'ZL4V6U99VZHDS', 
+  paymentID: '5UM83932C9177942D', 
+  billingToken: null, 
+  facilitatorAccessToken: 'A21AAIAi1Sgo-P2YkVQUd9p-b5l_3Zi1zQES7VnxQ0vlq7ZD5X6ujzj7tkGBUDJQ8jI_OcyDb8klg6r3u9Nswx2Q1Ck6irOlA',
+   …}
+
+
+  {orderID: '0UU671120M8598444', payerID: 'MYPTZ43NKBKZW', paymentID: '0UU671120M8598444', billingToken: null, facilitatorAccessToken: 'A21AAKDNB_2uQ6OBzLFEyX4QWQis5ZGeG4YA9HRtXg6qZQI6V5XEpthi7oAUU5GZVHx5jGwzpuaHoNQLU72SqurFk89DtM1ew', …}
+billingToken
+: 
+null
+facilitatorAccessToken
+: 
+"A21AAKDNB_2uQ6OBzLFEyX4QWQis5ZGeG4YA9HRtXg6qZQI6V5XEpthi7oAUU5GZVHx5jGwzpuaHoNQLU72SqurFk89DtM1ew"
+orderID
+: 
+"0UU671120M8598444"
+payerID
+: 
+"MYPTZ43NKBKZW"
+paymentID
+: 
+"0UU671120M8598444"
+paymentSource
+: 
+"paypal"
+
+
+paymentSource tipo de pago verificar por tarjeta a ver
+
+
+
+import React from "react";
+import { Grid } from "@mui/material";
+import styled from "@emotion/styled";
+import { AiFillCheckCircle } from "react-icons/ai";
+import { BLUECOLOR } from "../colors/Colors";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+const Container = styled(Grid)({
+  height: "100vh",
+});
+
+const Title = styled.p({
+  fontSize: "5vh",
+  color: BLUECOLOR,
+  fontWeight: 700,
+  margin: 0,
+  textAlign: "center"
+});
+const Card = styled.div({
+  width: "100%",
+  boxShadow: "0 5px 10px 0 rgba(0, 23, 48,0.1)",
+  borderRadius: 4,
+  padding: "0.5vh",
+  paddingBottom: "4vh",
+  paddingTop: "4vh",
+});
+const ContainedButton = styled.div({
+  padding: "2vh",
+  display: "flex",
+  justifyContent: "center",
+  backgroundColor: BLUECOLOR,
+  color: "white",
+  borderRadius: 5,
+  cursor: "pointer",
+});
+
+const Text = styled.p({
+    textAlign: 'left',
+    color:'rgb(100,100,100)'
+})
+const TextStrong = styled.p({
+    textAlign: 'right',
+    fontWeight: 700,
+        color:'rgb(30,30,30)'
+})
+const PaymentResult = () => {
+
+  const [data, setData] = useState(JSON.parse(localStorage.getItem("operacion")));
+
+  useEffect(() => {
+    localStorage.removeItem("operacion");
+  }, []); 
+
+  return (
+    <>
+      <Container container alignItems={"center"} justifyContent={"center"}>
+        <Grid item xs={10} md={4}>
+          <Card>
+            <Grid container justifyContent={"space-around"} rowSpacing={2}>
+              <Grid item xs={8} md={1}>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <AiFillCheckCircle style={{ fontSize: "5rem", color: BLUECOLOR }}/>
+                </div>
+              </Grid>
+              <Grid item xs={12}>
+                <Title>Payment success!</Title>
+                          </Grid>
+                          <Grid item xs={12}>
+                            
+                                  <Grid container justifyContent={"space-around"}>
+                                      <Grid item xs={5}>
+                                        <Text>Transition:</Text>
+                                      </Grid>
+                                      <Grid item xs={5}>
+                                        <TextStrong>{ data.number }</TextStrong>
+                                      </Grid>
+                                  </Grid>
+                                
+                                  <Grid container justifyContent={"space-around"}>
+                                      <Grid item xs={5}>
+                                        <Text>Date created:</Text>
+                                      </Grid>
+                                      <Grid item xs={5}>
+                                        <TextStrong>{ data.date_created }</TextStrong>
+                                      </Grid>
+                                  </Grid>
+
+                                  <Grid container justifyContent={"space-around"}>
+                                      <Grid item xs={5}>
+                                        <Text>Payment Method:</Text>
+                                      </Grid>
+                                      <Grid item xs={5}>
+                                        <TextStrong>{ data.payment_method }</TextStrong>
+                                      </Grid>
+                                  </Grid>
+
+                                  <Grid container justifyContent={"space-around"}>
+                                      <Grid item xs={5}>
+                                        <Text>Currency:</Text>
+                                      </Grid>
+                                      <Grid item xs={5}>
+                                        <TextStrong>{ data.currency }</TextStrong>
+                                      </Grid>
+                                  </Grid>
+
+                                  <Grid container justifyContent={"space-around"}>
+                                      <Grid item xs={5}>
+                                        <Text>Total:</Text>
+                                      </Grid>
+                                      <Grid item xs={5}>
+                                        <TextStrong>{ data.total }</TextStrong>
+                                      </Grid>
+                                  </Grid>
+
+                                  <Grid container justifyContent={"space-around"}>
+                                      <Grid item xs={5}>
+                                        <Text>Status:</Text>
+                                      </Grid>
+                                      <Grid item xs={5}>
+                                        <TextStrong>{ data.status }</TextStrong>
+                                      </Grid>
+                                  </Grid>  
+                          
+                             
+                              
+                          </Grid>
+              
+              <Grid item xs={10} md={10}>
+                <Link legacyBehavior href={"/"}>
+                  <ContainedButton>Back to shop</ContainedButton>
+                </Link>
+              </Grid>
+            </Grid>
+          </Card>
+        </Grid>
+      </Container>
+    </>
+  );
+};
+export default PaymentResult;

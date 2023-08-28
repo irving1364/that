@@ -1,0 +1,104 @@
+@media screen and (max-width: 980px) {
+    .item {
+        display: none;
+    }
+}
+
+
+
+
+.bg {
+	background-color: #326295;
+}
+
+.bg_movil {
+	background-color: #1e1f20;
+}
+
+.bgImage {
+	background-image: url("/images/1.webp");
+}
+
+.bgImageContact {
+	background-image: url("/images/backgorundImage.webp");
+}
+
+.bgInputContact {
+  background-color: #2d4a6a;
+}
+
+
+
+.colorTitulo {
+	color: #326295;
+}
+  
+.marginRem {
+	margin-right: 3rem;
+}  
+  
+.iconosEnd {
+  color: #326295;
+}
+
+.BotonHeader {
+  background-color: rgb(10, 10, 10);
+  width: 100%;
+  padding: 0.89vh 150px;
+  border-radius: 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: #ffffff;
+  inline-size: max-content;
+}  
+
+.textArchive {
+  font-size: 1.7vh;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  color: white;
+  margin: 0px;
+}
+
+.textSub {
+  font-size: 1.7vh;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  color: white;
+  margin: 0px 0px 0px 5px;
+  border-bottom: 3px solid rgb(255, 255, 255);
+}
+
+
+@media screen and (max-width: 980px) {
+  .BotonHeader {
+      width: 100%; 
+      background-color: rgb(24, 22, 22);
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .BotonHeader {
+    padding: 0.89vh 24px;
+  }  
+}
+
+@media screen and (max-width: 450px) {
+  .BotonHeader {
+    padding: 0.89vh 80px;
+  }  
+}
+
+
+@media screen and (max-width: 650px) {
+  .BotonHeader {
+    padding: 0.89vh 80px;
+  }  
+}
+
+@media screen and (max-width: 800px) {
+  .BotonHeader {
+    padding: 0.89vh 90px;
+  }  
+}
