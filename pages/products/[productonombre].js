@@ -36,7 +36,7 @@ export const getServerSideProps= async (context) => {
 		redirect: 'follow'
 	};
     
-    const data = await fetch("http://216.246.47.150/~ruyqmicw/wordpress/wp-json/wc/v3/products?search=" + context.query.productonombre + "", requestOptions);
+    const data = await fetch("https://happyhour987.com/wordpress/wp-json/wc/v3/products?search=" + context.query.productonombre + "", requestOptions);
     const result = await data.json();
     
 	return {
