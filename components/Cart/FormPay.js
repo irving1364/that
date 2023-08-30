@@ -279,7 +279,7 @@ if (totalPrice > 0) {
                 <PayPalButtons createOrder={async () => {
                   try{
                     const res = await axios({
-                      url: "https://thatslifestudio.com/api/pay/"+ totalPrice +"/",
+                      url: "https://www.thatslifestudio.com/api/pay/"+ totalPrice +"/",
                       method: "POST",
                       headers:{
                         "Content-Type": "application/json"
