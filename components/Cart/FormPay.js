@@ -7,6 +7,8 @@ import { BLUECOLOR, YELLOWCOLOR } from "../../colors/Colors";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
+import GooglePayButton from '@google-pay/button-react'
 import styles from '../../styles/home.module.css';
 
 import validator from 'validator'
@@ -279,7 +281,7 @@ if (totalPrice > 0) {
                 <PayPalButtons createOrder={async () => {
                   try{
                     const res = await axios({
-                      url: "https://www.thatslifestudio.com/api/pay/"+ totalPrice +"/",
+                      url: "http://127.0.0.1:3000/api/pay/"+ totalPrice +"/",
                       method: "POST",
                       headers:{
                         "Content-Type": "application/json"
@@ -303,7 +305,53 @@ if (totalPrice > 0) {
                 }}
                 style={{ layout: "vertical", color: "blue" }} />
             </PayPalScriptProvider>
-            </Grid>
+          </Grid>
+
+          <Grid item xs={11}>
+            <GooglePayButton
+              buttonSizeMode="fill"
+              style={{width:"100%"}}
+              environment="TEST"
+              paymentRequest={{
+                apiVersion: 2,
+                apiVersionMinor: 0,
+                allowedPaymentMethods: [
+                  {
+                    type: 'CARD',
+                    parameters: {
+                      allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                      allowedCardNetworks: ['MASTERCARD', 'VISA'],
+                    },
+                    tokenizationSpecification: {
+                      type: 'PAYMENT_GATEWAY',
+                      parameters: {
+                        gateway: 'example',
+                        gatewayMerchantId: 'exampleGatewayMerchantId',
+                      },
+                    },
+                  },
+                ],
+                merchantInfo: {
+                  merchantId: '12345678901234567890',
+                  merchantName: 'Demo Merchant',
+                },
+                transactionInfo: {
+                  totalPriceStatus: 'FINAL',
+                  totalPriceLabel: 'Total',
+                  totalPrice: "1.00",
+                  currencyCode: 'USD',
+                  countryCode: 'US',
+                },
+              }}
+              onLoadPaymentData={paymentRequest => {
+                console.log('load payment data', paymentRequest);
+              }}
+              
+            />
+
+
+  
+          </Grid>  
 
           </Grid>  
         }
