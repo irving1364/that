@@ -11,6 +11,7 @@ import HeadTo from '../components/HeadTo';
 import FAQGS from '../components/FAQGS';
 import CarouselSection from '../components/Carousel';
 import Contact from '../components/Contact';
+import BackgroundVideo from '../components/Video';
 
 
 export default function Home({ agregarCarrito }) {
@@ -18,9 +19,9 @@ export default function Home({ agregarCarrito }) {
 
    const [allCategories, setCategories] = useState([]);
    const [bestSeeler, setBestSeeler] = useState([]);
+   const [videoSource, setVideoSource] = useState();
    const [showModal, setShowModal] = useState(false);
   
-
 
    
    var settings = {
@@ -90,7 +91,16 @@ export default function Home({ agregarCarrito }) {
       const load = await fetch("https://happyhour987.com/wordpress/wp-json/wc/v3/products?category=22", requestOptions)
       const resulta = await load.json();
       setBestSeeler(resulta);
-   
+
+      const loadVideo = await fetch("https://happyhour987.com/wordpress/wp-json/wc/v3/products?sku=123", requestOptions)
+      const response = await loadVideo.json();
+      setVideoSource(response[0].downloads[0].file);
+    }
+
+    
+    const scrollToBottom = () => {
+      const bottomEle = document.querySelector("#video-bottom");
+      bottomEle.scrollIntoView({ behavior: "smooth" });
     }
 
    return (
@@ -119,10 +129,12 @@ export default function Home({ agregarCarrito }) {
             <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
        </Head>
 
- 
+       <BackgroundVideo
+          blur={0}
+          videoSource={videoSource} >
+        
+        </BackgroundVideo>
 
-
-         <Slideer />
 
          <OurProducts bestSeeler = { bestSeeler }/>
 
