@@ -7,6 +7,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@google-pay/button-react": "^3.0.10",
     "@headlessui/react": "^1.7.13",
     "@headlessui/tailwindcss": "^0.1.2",
     "@heroicons/react": "^2.0.16",
@@ -15,7 +16,9 @@
     "@paypal/checkout-server-sdk": "^1.0.3",
     "@paypal/react-paypal-js": "^8.1.1",
     "@react-spring/web": "^9.7.3",
+    "amazon-pay-react": "^0.9.0",
     "axios": "^1.4.0",
+    "cloudinary-react": "^1.8.1",
     "framer-motion": "^10.16.1",
     "next": "^13.2.4",
     "next-nprogress-bar": "^2.0.3",
