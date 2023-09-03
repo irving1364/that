@@ -16,7 +16,7 @@ import BackgroundVideo from '../components/Video';
 
 export default function Home({ agregarCarrito }) {
 
-
+   const [isLoad, setIsLoad] = useState(false);
    const [allCategories, setCategories] = useState([]);
    const [bestSeeler, setBestSeeler] = useState([]);
    const [videoSource, setVideoSource] = useState();
@@ -95,6 +95,7 @@ export default function Home({ agregarCarrito }) {
       const loadVideo = await fetch("https://happyhour987.com/wordpress/wp-json/wc/v3/products?sku=123", requestOptions)
       const response = await loadVideo.json();
       setVideoSource(response[0].downloads[0].file);
+      setIsLoad(true);
     }
 
     
@@ -102,63 +103,65 @@ export default function Home({ agregarCarrito }) {
       const bottomEle = document.querySelector("#video-bottom");
       bottomEle.scrollIntoView({ behavior: "smooth" });
     }
+   if (isLoad ) {
+      return (
+        <>
+          <Head>
+                <title>Thatslifestudio | Studio</title>
+                
+                <meta name="description" content="Thatslifestudio | Studio"></meta>
+            
+                <meta name="keywords" content="Mobiliario Médico, Acero Inoxidable, Soldadura de acero, inoxidable, Muebles Médicos, Mobiliario para hospitales, Mobiliario para Consultorios, Mobiliario para la industria de laboratorios, Mobiliario para la industria, Farmacéutica Muebles, Médicos en Aglomerado, Muebles Médicos en Hidrófugo, Mobiliario en acero inoxidable"></meta>
+              
+                <meta name="author" content="Irving salcedo - irvng1364@gmail.com"></meta>
+                
+                <meta property="og:title" content="Thatslifestudio | Studio"></meta>
+                
+                <meta property="og:type" content="website" ></meta>
+                
+                <meta property="og:url" content="https://happyhour987.com/wordpress" ></meta>
+                
+                <meta property="og:image" content="https://fadimet.com.pa/assets/img/favicon.ico"></meta>
+                
+                <meta property="og:description" content="Thatslifestudio | Studio"></meta>
+                
+                <meta name="google-site-verification" content="q69ooG1JcwygD34SVUkuttAAHhiu0-yg37u-PCXVlvs"></meta>
+                
+                <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+          </Head>
+          
+          <p style={{display:"none"}}>{videoSource}</p>
+          <BackgroundVideo
+              blur={0}
+              videoSource={videoSource} >
+            
+            </BackgroundVideo>
 
-   return (
-    <>
-       <Head>
-            <title>Thatslifestudio | Studio</title>
-            
-            <meta name="description" content="Thatslifestudio | Studio"></meta>
-         
-            <meta name="keywords" content="Mobiliario Médico, Acero Inoxidable, Soldadura de acero, inoxidable, Muebles Médicos, Mobiliario para hospitales, Mobiliario para Consultorios, Mobiliario para la industria de laboratorios, Mobiliario para la industria, Farmacéutica Muebles, Médicos en Aglomerado, Muebles Médicos en Hidrófugo, Mobiliario en acero inoxidable"></meta>
-           
-            <meta name="author" content="Irving salcedo - irvng1364@gmail.com"></meta>
-            
-            <meta property="og:title" content="Thatslifestudio | Studio"></meta>
-            
-            <meta property="og:type" content="website" ></meta>
-            
-            <meta property="og:url" content="https://happyhour987.com/wordpress" ></meta>
-            
-            <meta property="og:image" content="https://fadimet.com.pa/assets/img/favicon.ico"></meta>
-            
-            <meta property="og:description" content="Thatslifestudio | Studio"></meta>
-            
-            <meta name="google-site-verification" content="q69ooG1JcwygD34SVUkuttAAHhiu0-yg37u-PCXVlvs"></meta>
-            
-            <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
-       </Head>
 
-       <BackgroundVideo
-          blur={0}
-          videoSource={videoSource} >
+            <OurProducts bestSeeler = { bestSeeler }/>
+
+            <CategoriesSection categories={allCategories} />
+
+            <OurHoodieSection />  
+
+            <OurTeeSection />  
+
+            <HeadTo />         
+
+            <FAQGS />
+            
+            {/*
+              <CarouselSection />
+            */} 
+
+            <Contact />
+
         
-        </BackgroundVideo>
+          
 
-
-         <OurProducts bestSeeler = { bestSeeler }/>
-
-         <CategoriesSection categories={allCategories} />
-
-         <OurHoodieSection />  
-
-         <OurTeeSection />  
-
-         <HeadTo />         
-
-         <FAQGS />
-         
-        {/*
-          <CarouselSection />
-        */} 
-
-         <Contact />
-
-     
-       
-
-                    
-    </>
- );
+                        
+        </>
+    );
+  }  
 }
 
