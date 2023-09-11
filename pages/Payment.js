@@ -48,7 +48,7 @@ if(isLoad){
       <Grid item xs={12}>
 
       </Grid>
-      <Grid item xs={11} md={10}>
+      <Grid item xs={11} md={12}>
         <Grid container columnSpacing={4} justifyContent={"space-around"}>
           <Grid item xs={12} md={6}>
 
@@ -57,7 +57,7 @@ if(isLoad){
                      totalPriceProds = { totalPriceProds }
             />
           </Grid>
-          <Grid item xs={12}md={4} className="mt-14">
+          <Grid item xs={12}md={6} className="mt-14">
             <ContainerImage>
                 <Image src="/images/bgPayment.webp" />
                 <ContainerText>
