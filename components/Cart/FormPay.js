@@ -277,11 +277,11 @@ if (totalPrice > 0) {
             </Grid>
 
             <Grid item xs={11}>
-              <PayPalScriptProvider options={{ clientId: "AZ51IszbJLx4g0E2qXG5BFDUO1EdcAlau4MEoyDOmrpeQflg8xAJeHW5oU3-zLkq8PaXJO5AuGLOHKea" }}>
+              <PayPalScriptProvider options={{ clientId: "ARaImyHJ2lHwAG-xrLwLi6iY1kEw2xUNQ2ABmte0hk-aOjCqUR5Yj0wj-33CMCT_lAWh6GfPQ1ww9lKM" }}>
                 <PayPalButtons createOrder={async () => {
                   try{
                     const res = await axios({
-                      url: "https://thatslifestudio.com/api/pay/"+ totalPrice +"/",
+                      url: "http://127.0.0.1:3000/api/pay/"+ totalPrice +"/",
                       method: "POST",
                       headers:{
                         "Content-Type": "application/json"
