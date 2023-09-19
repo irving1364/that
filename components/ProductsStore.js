@@ -76,12 +76,12 @@ export default function ProductsStore({ products, agregarCarrito }) {
                 <Grid item xs={12} md={3} key={index} >
                   
                   <Link 
-                            legacyBehavior 
-                            href={`products/${item.name}`}
-                            >
-                    <Card>
-                   
-                      
+                    legacyBehavior 
+                    href={`products/${item.name}`}
+                    >
+                      <a>
+                        <Card>
+                        
                           <ContainerImage>
 
                           {!item.images[0]
@@ -109,9 +109,8 @@ export default function ProductsStore({ products, agregarCarrito }) {
                             </button>
                           </Cart>
                         }
-                       
-                      
-                    </Card>
+                      </Card>
+                      </a>   
                     </Link> 
                 </Grid>
               );

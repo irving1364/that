@@ -57,7 +57,7 @@ const OurProducts = ({ bestSeeler }) => {
                 <Grid item xs={12} md={3} key={index} >
                   <Link legacyBehavior 
                     href={`products/${item.name}`}>
-                    
+                    <a>
                       <Card>
                         <ContainerImage>
                           {!item.images[0]
@@ -68,7 +68,7 @@ const OurProducts = ({ bestSeeler }) => {
                         <TittleCard>{item.name}</TittleCard>
                         <Price>${item.sale_price}</Price>
                       </Card>
-                      
+                      </a>
                    </Link>  
                 </Grid>
               );
