@@ -5,12 +5,12 @@
 
 import paypal from "@paypal/checkout-server-sdk";
 // Creating an environment
-let clientId = "AZ51IszbJLx4g0E2qXG5BFDUO1EdcAlau4MEoyDOmrpeQflg8xAJeHW5oU3-zLkq8PaXJO5AuGLOHKea";
-let clientSecret = "EGBVzO3S4CJtSDygR6fVakQQ9ZCYG8vjm1YEm5-Z2OeLbdSyMoC_MfQ8PNL-hYouplFf3TttJhld8J_9";
+let clientId = "ARaImyHJ2lHwAG-xrLwLi6iY1kEw2xUNQ2ABmte0hk-aOjCqUR5Yj0wj-33CMCT_lAWh6GfPQ1ww9lKM";
+let clientSecret = "EFsPOKUYXdV8KPspSsJ83obBq47p-IiBLwLFjdEna0PXkzLJXmKwmuf7GIgbY8QgcbfOrLofUkL_-JSb";
 
 
 // This sample uses SandboxEnvironment. In production, use LiveEnvironment
-let environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
+let environment = new paypal.core.LiveEnvironment(clientId, clientSecret);
 let client = new paypal.core.PayPalHttpClient(environment);
 
 export default async function handler(req, res) {
