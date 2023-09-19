@@ -207,6 +207,8 @@ const FormPay = ({ vaciarCarrito, totalPriceProds }) => {
     }
   }
 
+
+
 if (totalPrice > 0) {
   
   /* push('/cart');*/
@@ -308,47 +310,65 @@ if (totalPrice > 0) {
           </Grid>
 
           <Grid item xs={11}>
-            <GooglePayButton
-              buttonSizeMode="fill"
-              style={{width:"100%"}}
-              environment="TEST"
-              paymentRequest={{
-                apiVersion: 2,
-                apiVersionMinor: 0,
-                allowedPaymentMethods: [
-                  {
-                    type: 'CARD',
-                    parameters: {
-                      allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-                      allowedCardNetworks: ['MASTERCARD', 'VISA'],
-                    },
-                    tokenizationSpecification: {
-                      type: 'PAYMENT_GATEWAY',
-                      parameters: {
-                        gateway: 'example',
-                        gatewayMerchantId: 'exampleGatewayMerchantId',
-                      },
-                    },
-                  },
-                ],
-                merchantInfo: {
-                  merchantId: '12345678901234567890',
-                  merchantName: 'Demo Merchant',
-                },
-                transactionInfo: {
-                  totalPriceStatus: 'FINAL',
-                  totalPriceLabel: 'Total',
-                  totalPrice: "1.00",
-                  currencyCode: 'USD',
-                  countryCode: 'US',
-                },
-              }}
-              onLoadPaymentData={paymentRequest => {
-                console.log('load payment data', paymentRequest);
-              }}
-              
-            />
 
+<br></br>
+
+
+<GooglePayButton
+        buttonSizeMode="fill"
+        style={{width:"100%"}}
+        environment="TEST"
+        paymentRequest={{
+          apiVersion: 2,
+          apiVersionMinor: 0,
+          allowedPaymentMethods: [
+            {
+              type: "CARD",
+              parameters: {
+                allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                allowedCardNetworks: ["MASTERCARD", "VISA"]
+              },
+              tokenizationSpecification: {
+                type: "PAYMENT_GATEWAY",
+                parameters: {
+                  gateway: "example",
+                  gatewayMerchantId: "exampleGatewayMerchantId"
+                }
+              }
+            }
+          ],
+          merchantInfo: {
+            merchantId: "12345678901234567890",
+            merchantName: "Demo Merchant"
+          },
+          transactionInfo: {
+            totalPriceStatus: "FINAL",
+            totalPriceLabel: "Total",
+            totalPrice: totalPrice.toString(),
+            currencyCode: "USD",
+            countryCode: "US"
+          },
+          shippingAddressRequired: false,
+          callbackIntents: ["PAYMENT_AUTHORIZATION"]
+        }}
+        onLoadPaymentData={(paymentRequest) => {
+          console.log("Success", paymentRequest);
+          localStorage.setItem('paymentSource', "Google Pay")	
+          localStorage.setItem('payerID', paymentRequest.paymentMethodData.description)	
+          onSubmit("Google Pay", paymentRequest.paymentMethodData.description);
+        }}
+        onPaymentAuthorized={(paymentData) => {
+          console.log("Payment Authorised Success", paymentData);
+          return { transactionState: "SUCCESS" };
+        }}
+        // onPaymentDataChanged={(paymentData) => {
+        //   console.log("On Payment Data Changed", paymentData);
+        //   return {};
+        // }}
+        existingPaymentMethodRequired="false"
+        buttonColor="default"
+        buttonType="short"
+      />
 
   
           </Grid>  

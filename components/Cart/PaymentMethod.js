@@ -19,7 +19,7 @@ const Image = styled.img({
     height: '4vh',
     
 })
-const Images = ["/images/pay/p.png","/images/pay/b.png","/images/pay/c.jpg","/images/pay/s.png", "/images/pay/v.jpg", "/images/pay/m.png"]
+const Images = ["/images/pay/p.png", "/images/pay/v.jpg", "/images/pay/m.png"]
 const PaymentMethod = () => {
     return (
         <Grid container spacing={2}>
