@@ -52,6 +52,7 @@ const PaymentResult = () => {
 
   useEffect(() => {
     setData(JSON.parse(localStorage.getItem("operacion")));
+    console.log(JSON.parse(localStorage.getItem("operacion")))
     localStorage.removeItem("operacion");
   
     setIsLoad(true);
